@@ -384,9 +384,6 @@ class Worker(Persistant):
         self.collection_start_time = time.time()
 
     def register_task_completion(self, task, repo_id, model):
-        """Registers a task as complete with broker,
-        adds task to the worker_history table,
-        and updates the worker_job table"""
 
         self.logger.info(f"Worker completed this task in {self.collection_start_time - time.time()} seconds.\n")
 
@@ -410,7 +407,7 @@ class Worker(Persistant):
             return
 
         task_completed[key] = task['given'][key]
-
+        
         # Add to history table
         task_history = {
             'repo_id': repo_id,
@@ -453,9 +450,6 @@ class Worker(Persistant):
         self.update_counter = 0
 
     def register_task_failure(self, task, repo_id, e):
-        """Registers a task as failed with the broker,
-        updates the worker_history table,
-        and updates the worker_job table"""
 
         self.logger.error(f"Worker ran into an error for task: {task}")
         self.logger.error(
